@@ -1066,5 +1066,5 @@ class Blocks(BlockContext):
                     None,
                     component,
                     no_target=True,
-                    queue=False
+                    queue=False,
                 )
