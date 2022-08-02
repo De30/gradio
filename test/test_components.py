@@ -4,13 +4,13 @@ import tempfile
 import unittest
 from copy import deepcopy
 from difflib import SequenceMatcher
+from unittest.mock import patch
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import PIL
 import pytest
-from requests import head
 
 import gradio as gr
 from gradio import media_data
@@ -1809,6 +1809,14 @@ class TestColorPicker(unittest.TestCase):
         """
         component = gr.ColorPicker("#000000")
         self.assertEqual(component.get_config().get("value"), "#000000")
+
+
+@patch("gradio.Slider.get_random_value", return_value=7)
+def test_slider_get_random_value_on_load(mock_get_random_value):
+    slider = gr.Slider(value="random", minimum=-5, maximum=10)
+    assert slider.should_randomize
+    assert slider.value == 7
+    assert slider.get_random_value_on_load()["value"] == 7
 
 
 if __name__ == "__main__":
